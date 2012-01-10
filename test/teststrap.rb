@@ -8,4 +8,5 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 require 'riot'
+require 'riot/rr'
 require 'zephyrous'
