@@ -6,10 +6,7 @@ class Person
   attr_reader :name, :email
 
   def self.create (name, email)
-    person = Person.new
-    person.send(:add_event, CreatedEvent.new({ name: name, email: email }))
-
-    person
+    Person.create_from_event CreatedEvent.new({ name: name, email: email })
   end
 
   def on_created(event)

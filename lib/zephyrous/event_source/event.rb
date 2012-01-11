@@ -31,7 +31,6 @@ module Zephyrous
           super
         end
       end
-
     end
   end
 end

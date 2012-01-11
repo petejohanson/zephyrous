@@ -11,6 +11,10 @@ module Zephyrous
         def from_events(events)
           self.new.tap { |agg| events.each { |ev| agg.send(:apply_event, ev) } }
         end
+
+        def create_from_event(event)
+          self.new.tap { |agg| agg.send(:add_event, event) }
+        end
       end
 
       def new_events
