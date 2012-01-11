@@ -1,6 +1,6 @@
 = zephyrous
 
-Description goes here.
+A simple CQRS support library. Still a work-in-progress!
 
 == Contributing to zephyrous
  
