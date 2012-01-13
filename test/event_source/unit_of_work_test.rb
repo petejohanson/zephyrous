@@ -20,8 +20,7 @@ context "unit of work" do
       topic.track(first_ar)
     end
 
-    should("add the new events to storage with a transaction") {
-      mock(topic.storage).transaction.returns { |t_proc| t_proc.call (topic.storage) }
+    should("add the new events to storage") {
       mock(topic.storage).add first_ar_events
 
       topic.commit
@@ -36,7 +35,6 @@ context "unit of work" do
       end
 
       should("add the first and second events to storage") {
-        mock(topic.storage).transaction.returns { |t_proc| t_proc.call (topic.storage) }
         mock(topic.storage).add first_ar_events
         mock(topic.storage).add second_ar_events
   
@@ -77,7 +75,6 @@ context "unit of work" do
         end
 
         should('commit changes to found AR when commiting') {
-          mock(topic.storage).transaction.returns { |t_proc| t_proc.call (topic.storage) }
           mock(topic.storage).add new_events { true }
 
           topic.commit

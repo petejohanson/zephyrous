@@ -16,9 +16,7 @@ module Zephyrous
       end
 
       def commit
-        storage.transaction { |s|
-          tracked.each { |ar| s.add ar.new_events }
-        }
+        tracked.each { |ar| storage.add ar.new_events }
       end
 
       def storage
