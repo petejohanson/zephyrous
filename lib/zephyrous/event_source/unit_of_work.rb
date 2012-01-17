@@ -1,6 +1,12 @@
 module Zephyrous
   module EventSource
     class UnitOfWork
+      attr_reader :storage
+
+      def initialize(storage)
+        @storage = storage
+      end
+
       def find(klass, guid)
         events = @storage.find_all guid
         return nil if events.empty?
@@ -17,10 +23,6 @@ module Zephyrous
 
       def commit
         tracked.each { |ar| storage.add ar.new_events }
-      end
-
-      def storage
-        @storage ||= EventStorage.new
       end
 
       private

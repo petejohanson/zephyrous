@@ -1,17 +1,8 @@
 require 'teststrap'
 
-module Zephyrous
-  module EventSource
-    class UnitOfWork
-      def storage
-        @storage ||= Object.new
-      end
-    end
-  end
-end
-
 context "unit of work" do
-  setup { Zephyrous::EventSource::UnitOfWork.new }
+  helper(:storage) { @storage ||= Object.new }
+  setup { Zephyrous::EventSource::UnitOfWork.new(storage) }
   context "with a tracked AR" do
     helper(:first_ar_events) { @first_ar_events ||= [:first] }
     helper(:first_ar) { @first_ar ||= Object.new }
@@ -21,7 +12,7 @@ context "unit of work" do
     end
 
     should("add the new events to storage") {
-      mock(topic.storage).add first_ar_events
+      mock(storage).add first_ar_events
 
       topic.commit
     }
@@ -35,8 +26,8 @@ context "unit of work" do
       end
 
       should("add the first and second events to storage") {
-        mock(topic.storage).add first_ar_events
-        mock(topic.storage).add second_ar_events
+        mock(storage).add first_ar_events
+        mock(storage).add second_ar_events
   
         topic.commit
       }
@@ -46,7 +37,7 @@ context "unit of work" do
   context 'when finding AR with a given guid' do
     should('return null when no events found') {
       guid = '123'
-      stub(topic.storage).find_all(guid) { [] }
+      stub(storage).find_all(guid) { [] }
 
       topic.find(Object, guid)
     }.nil
@@ -56,7 +47,7 @@ context "unit of work" do
       helper(:events) { @events ||= [ 'a', 'b' ] }
       helper(:guid) { @guid ||= '123' }
       hookup do
-        stub(topic.storage).find_all(guid) { events }
+        stub(storage).find_all(guid) { events }
         stub(Object).from_events(events) { ar }
       end
 
@@ -75,7 +66,7 @@ context "unit of work" do
         end
 
         should('commit changes to found AR when commiting') {
-          mock(topic.storage).add new_events { true }
+          mock(storage).add new_events { true }
 
           topic.commit
         }
