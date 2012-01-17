@@ -3,6 +3,12 @@ module Zephyrous
   module EventSource
     class DomainRepository
 
+      attr_reader :unit_of_work
+
+      def initialize(unit_of_work)
+        @unit_of_work = unit_of_work
+      end
+
       def find(klass, guid)
         # TODO: Check the identity map too
         track unit_of_work.find(klass, guid)
@@ -10,10 +16,6 @@ module Zephyrous
 
       def add(aggregate_root)
         track aggregate_root
-      end
-
-      def unit_of_work
-        UnitOfWork.current
       end
 
       private
