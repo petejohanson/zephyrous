@@ -1,19 +1,9 @@
 
 require 'teststrap'
 
-module Zephyrous
-  module Commands
-    class Executor
-
-      def router
-        @router ||= Object.new
-      end
-    end
-  end
-end
-
 context 'given an executor' do
-  setup { Zephyrous::Commands::Executor.new }
+  helper(:router) { @router ||= Object.new }
+  setup { Zephyrous::Commands::Executor.new(router) }
 
   asserts("executing a command with no handler") do
     command = Object.new
