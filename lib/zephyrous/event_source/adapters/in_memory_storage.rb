@@ -4,7 +4,7 @@ module Zephyrous
     module Adapters
       class InMemoryStorage
         def initialize
-          @storage = Hash.new { [] }
+          @storage = Hash.new { |hash,key| hash[key] = [] }
           @new_events = []
         end
 
